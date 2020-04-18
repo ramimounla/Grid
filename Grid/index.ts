@@ -3,7 +3,7 @@ import DataSetInterfaces = ComponentFramework.PropertyHelper.DataSetApi;
 type DataSet = ComponentFramework.PropertyTypes.DataSet;
 // import * as $ from 'jquery';
 
-export class FilteredList implements ComponentFramework.StandardControl<IInputs, IOutputs> {
+export class Grid implements ComponentFramework.StandardControl<IInputs, IOutputs> {
 
 	private _container: HTMLDivElement;
 
@@ -11,7 +11,7 @@ export class FilteredList implements ComponentFramework.StandardControl<IInputs,
 	 * Empty constructor.
 	 */
 	constructor() {
-		
+
 	}
 
 	/**
@@ -23,14 +23,11 @@ export class FilteredList implements ComponentFramework.StandardControl<IInputs,
 	 * @param container If a control is marked control-type='standard', it will receive an empty div element within which it can render its content.
 	 */
 	public init(context: ComponentFramework.Context<IInputs>, notifyOutputChanged: () => void, state: ComponentFramework.Dictionary, container: HTMLDivElement) {
-		
 		// Add control initialization code
 		this._container = document.createElement("div");
 		this._container.className = "table-like";
-
 		container.appendChild(this._container);
 	}
-
 
 	private sanitizeNameToCss(name: string): string {
 		return name.toLowerCase().replace(' ', '-');
@@ -42,7 +39,6 @@ export class FilteredList implements ComponentFramework.StandardControl<IInputs,
 	 */
 	public updateView(context: ComponentFramework.Context<IInputs>): void {
 		// Add code to update control view
-
 		if (!context.parameters.recordSet.loading) {
 
 			this._container.innerHTML = "";
@@ -56,23 +52,22 @@ export class FilteredList implements ComponentFramework.StandardControl<IInputs,
 				span.innerText = column.displayName;
 				headers.appendChild(span);
 			});
-			this._container.appendChild(headers);
 
+			this._container.appendChild(headers);
 
 			recordSet.sortedRecordIds.forEach(recordId => {
 				var recordDiv = <HTMLDivElement>document.createElement("div");
 				recordDiv.className = "row";
-				context.parameters.recordSet.columns.forEach(column => {
 
+				context.parameters.recordSet.columns.forEach(column => {
 					var span = <HTMLSpanElement>document.createElement("span");
 					span.className = "element " + this.sanitizeNameToCss(column.displayName);
 					span.innerText = <string>recordSet.records[recordId].getValue(column.name);
 					recordDiv.appendChild(span);
-
 				});
+
 				this._container.appendChild(recordDiv);
 			});
-
 		}
 	}
 
