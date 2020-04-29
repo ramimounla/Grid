@@ -62,7 +62,20 @@ export class Grid implements ComponentFramework.StandardControl<IInputs, IOutput
 				context.parameters.recordSet.columns.forEach(column => {
 					var span = <HTMLSpanElement>document.createElement("span");
 					span.className = "element " + this.sanitizeNameToCss(column.displayName);
-					span.innerText = <string>recordSet.records[recordId].getValue(column.name);
+
+					if (column.dataType === "Lookup.Simple" && recordSet.records[recordId].getValue(column.name) !== null ){
+						var hyperLink = <HTMLAnchorElement>document.createElement("a");
+						//TODO add hyperlink
+						//@ts-ignore
+						hyperLink.href =  context.parameters.recordSet.records[recordId].getValue(column.name).id.guid;
+						//@ts-ignore
+						hyperLink.innerText = recordSet.records[recordId].getValue(column.name).name; 
+						span.appendChild(hyperLink);
+					}
+					//Simple Text
+					else{
+						span.innerText = <string>recordSet.records[recordId].getValue(column.name);
+					}
 					recordDiv.appendChild(span);
 				});
 
