@@ -65,9 +65,8 @@ export class Grid implements ComponentFramework.StandardControl<IInputs, IOutput
 
 					if (column.dataType === "Lookup.Simple" && recordSet.records[recordId].getValue(column.name) !== null ){
 						var hyperLink = <HTMLAnchorElement>document.createElement("a");
-						//TODO add hyperlink
 						//@ts-ignore
-						hyperLink.href =  context.parameters.recordSet.records[recordId].getValue(column.name).id.guid;
+						hyperLink.href = Xrm.Utility.getGlobalContext().getClientUrl() + "?appid=" + Xrm.Utility.getGlobalContext().getClientUrl() + "&pagetype=entityrecord&etn=" + recordSet.records[recordId].getValue(column.name).etn + "&id=" + context.parameters.recordSet.records[recordId].getValue(column.name).id.guid;
 						//@ts-ignore
 						hyperLink.innerText = recordSet.records[recordId].getValue(column.name).name; 
 						span.appendChild(hyperLink);
