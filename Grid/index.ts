@@ -71,6 +71,11 @@ export class Grid implements ComponentFramework.StandardControl<IInputs, IOutput
 						hyperLink.innerText = recordSet.records[recordId].getValue(column.name).name; 
 						span.appendChild(hyperLink);
 					}
+					//TODO check datatype instead of name
+					else if (column.displayName.toLowerCase().includes("date") && recordSet.records[recordId].getValue(column.name) != null) {
+						span.innerText = recordSet.records[recordId].getFormattedValue(column.name);
+						// span.innerText = moment(<string>recordSet.records[recordId].getValue(column.name), "YYYY-MM-DDTHH:mm:ss.SSSZ").format("YYYY-MM-DD");
+					}
 					//Simple Text
 					else{
 						span.innerText = <string>recordSet.records[recordId].getValue(column.name);
